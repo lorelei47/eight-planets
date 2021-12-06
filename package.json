@@ -2,6 +2,7 @@
     "name": "eight-planets",
     "version": "0.1.0",
     "private": true,
+    "homepage": "https://lorelei47.github.io/eight-planets",
     "scripts": {
         "start": "vue-cli-service serve",
         "build": "vue-cli-service build",
