@@ -1,17 +1,17 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Galaxy />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import { scene, camera, renderer } from "./assets/js/global";
+import Galaxy from "./components/Galaxy.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Galaxy,
+  },
+};
 </script>
 
 <style>
@@ -21,6 +21,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  width: 100vw;
+  height: 100vh;
+  /* margin-top: 60px; */
 }
 </style>
