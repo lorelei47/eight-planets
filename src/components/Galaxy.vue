@@ -28,9 +28,9 @@ export default {
       global.scene.add(global.ambientLight);
 
       //相机
-      global.camera.position.z = 12000;
-      global.camera.position.x = 10000;
-      global.camera.position.y = 2000;
+      global.camera.position.z = 50000;
+      global.camera.position.x = 40000;
+      global.camera.position.y = 6000;
 
       this.initGroup();
       this.loaderPlanet();
@@ -87,82 +87,82 @@ export default {
     },
     async loaderPlanet() {
       //太阳
-      await loader3d("/glb/Sun.glb", (glb) => {
+      await loader3d("glb/Sun.glb", (glb) => {
         console.log(glb);
         let sun = glb.scene;
-        sun.scale.set(1.5, 1.5, 1.5);
+        sun.scale.set(4, 4, 4);
         global.sunGroup.add(sun);
       });
       //水星
-      await loader3d("/glb/Mercury.glb", (glb) => {
+      await loader3d("glb/Mercury.glb", (glb) => {
         let mercury = glb.scene;
         mercury.scale.set(0.035, 0.035, 0.035);
         // mercury.scale.set(0.0035, 0.0035, 0.0035);//等比例数据
-        global.mercuryGroup.position.set(1000, 0, 0); 
+        global.mercuryGroup.position.set(global.mercuryDistance, 0, 0); 
         // global.mercuryGroup.position.set(4083.9, 0, 0);//等比例数据
         global.mercuryGroup.add(mercury);
       });
       //金星
-      await loader3d("/glb/Venus.glb", (glb) => {
+      await loader3d("glb/Venus.glb", (glb) => {
         let venus = glb.scene;
         venus.scale.set(0.09, 0.09, 0.09);
         // venus.scale.set(0.009, 0.009, 0.009);//等比例数据
-        global.venusGroup.position.set(2000, 0, 0); 
+        global.venusGroup.position.set(global.venusDistance, 0, 0); 
         // global.venusGroup.position.set(7770.1, 0, 0);//等比例数据
         global.venusGroup.add(venus);
       });
       //地球
-      await loader3d("/glb/Earth.glb", (glb) => {
+      await loader3d("glb/Earth.glb", (glb) => {
         //天文单位/太阳直径=107.4712643678161
         let earth = glb.scene;
         earth.scale.set(0.09, 0.09, 0.09);
         // earth.scale.set(0.009, 0.009, 0.009);//等比例数据
-        global.earthGroup.position.set(3000, 0, 0); 
+        global.earthGroup.position.set(global.earthDistance, 0, 0); 
         // global.earthGroup.position.set(10747.1, 0, 0);//等比例数据
         global.earthGroup.add(earth);
       });
       //火星
-      await loader3d("/glb/Mars.glb", (glb) => {
+      await loader3d("glb/Mars.glb", (glb) => {
         let mars = glb.scene;
         mars.scale.set(0.045, 0.045, 0.045);
         // mars.scale.set(0.0045, 0.0045, 0.0045);//等比例数据
-        global.marsGroup.position.set(4000, 0, 0); 
+        global.marsGroup.position.set(global.marsDistance, 0, 0); 
         // global.marsGroup.position.set(16378.5, 0, 0);//等比例数据
         global.marsGroup.add(mars);
       });
       //木星
-      await loader3d("/glb/Jupiter.glb", (glb) => {
+      await loader3d("glb/Jupiter.glb", (glb) => {
         let jupiter = glb.scene;
         jupiter.scale.set(1, 1, 1);
         // jupiter.scale.set(0.1, 0.1, 0.1);//等比例数据
-        global.jupiterGroup.position.set(5000, 0, 0); 
+        global.jupiterGroup.position.set(global.jupiterDistance, 0, 0); 
         // global.jupiterGroup.position.set(55932.7, 0, 0);//等比例数据
         global.jupiterGroup.add(jupiter);
       });
       //土星
-      await loader3d("/glb/Saturn.glb", (glb) => {
+      await loader3d("glb/Saturn.glb", (glb) => {
         let saturn = glb.scene;
         saturn.scale.set(0.84, 0.84, 0.84);
         // saturn.scale.set(0.084, 0.084, 0.084);//等比例数据
-        global.saturnGroup.position.set(6000, 0, 0); 
+        global.saturnGroup.position.set(global.saturnDistance, 0, 0); 
         // global.saturnGroup.position.set(102984, 0, 0);//等比例数据
         global.saturnGroup.add(saturn);
       });
       //天王星
-      await loader3d("/glb/Uranus.glb", (glb) => {
+      await loader3d("glb/Uranus.glb", (glb) => {
         let uranus = glb.scene;
         uranus.scale.set(0.37, 0.37, 0.37);
         // uranus.scale.set(0.037, 0.037, 0.037);//等比例数据
-        global.uranusGroup.position.set(7000, 0, 0); 
+        global.uranusGroup.position.set(global.uranusDistance, 0, 0); 
         // global.uranusGroup.position.set(206559.2, 0, 0);//等比例数据
         global.uranusGroup.add(uranus);
       });
       //海王星
-      await loader3d("/glb/Neptune.glb", (glb) => {
+      await loader3d("glb/Neptune.glb", (glb) => {
         let neptune = glb.scene;
         neptune.scale.set(0.35, 0.35, 0.35);
         // neptune.scale.set(0.035, 0.035, 0.035);//等比例数据
-        global.neptuneGroup.position.set(8000, 0, 0); 
+        global.neptuneGroup.position.set(global.neptuneDistance, 0, 0); 
         // global.neptuneGroup.position.set(3231605.3, 0, 0);//等比例数据
         global.neptuneGroup.add(neptune);
       });

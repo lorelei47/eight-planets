@@ -1,8 +1,13 @@
-import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 10000000);
+const camera = new THREE.PerspectiveCamera(
+  30,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  10000000
+);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 const light = new THREE.PointLight(0xffffff, 3);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.2); // 环境光
@@ -29,15 +34,24 @@ const uranusGroupParent = new THREE.Group();
 const neptuneGroup = new THREE.Group(); //海王星组
 const neptuneGroupParent = new THREE.Group();
 
+var mercuryDistance = 4000;
+var venusDistance = 10000;
+var earthDistance = 18000;
+var marsDistance = 28000;
+var jupiterDistance = 40000;
+var saturnDistance = 54000;
+var uranusDistance = 70000;
+var neptuneDistance = 88000;
+
 //轨道
-const mercuryArc = new THREE.ArcCurve(0, 0, 1000, 0, 2 * Math.PI);
-const venusArc = new THREE.ArcCurve(0, 0, 2000, 0, 2 * Math.PI);
-const earthArc = new THREE.ArcCurve(0, 0, 3000, 0, 2 * Math.PI);
-const marsArc = new THREE.ArcCurve(0, 0, 4000, 0, 2 * Math.PI);
-const jupiterArc = new THREE.ArcCurve(0, 0, 5000, 0, 2 * Math.PI);
-const saturnArc = new THREE.ArcCurve(0, 0, 6000, 0, 2 * Math.PI);
-const uranusArc = new THREE.ArcCurve(0, 0, 7000, 0, 2 * Math.PI);
-const neptuneArc = new THREE.ArcCurve(0, 0, 8000, 0, 2 * Math.PI);
+const mercuryArc = new THREE.ArcCurve(0, 0, mercuryDistance, 0, 2 * Math.PI);
+const venusArc = new THREE.ArcCurve(0, 0, venusDistance, 0, 2 * Math.PI);
+const earthArc = new THREE.ArcCurve(0, 0, earthDistance, 0, 2 * Math.PI);
+const marsArc = new THREE.ArcCurve(0, 0, marsDistance, 0, 2 * Math.PI);
+const jupiterArc = new THREE.ArcCurve(0, 0, jupiterDistance, 0, 2 * Math.PI);
+const saturnArc = new THREE.ArcCurve(0, 0, saturnDistance, 0, 2 * Math.PI);
+const uranusArc = new THREE.ArcCurve(0, 0, uranusDistance, 0, 2 * Math.PI);
+const neptuneArc = new THREE.ArcCurve(0, 0, neptuneDistance, 0, 2 * Math.PI);
 
 const mercuryGeometry = new THREE.BufferGeometry();
 const venusGeometry = new THREE.BufferGeometry();
@@ -58,8 +72,8 @@ uranusGeometry.setFromPoints(uranusArc.getPoints(1000));
 neptuneGeometry.setFromPoints(neptuneArc.getPoints(1000));
 
 const orbitsMaterial = new THREE.LineBasicMaterial({
-    color: 0x555555,
-    linewidth: 0.3
+  color: 0x555555,
+  linewidth: 0.3,
 });
 
 const mercuryLine = new THREE.Line(mercuryGeometry, orbitsMaterial);
@@ -72,38 +86,47 @@ const uranusLine = new THREE.Line(uranusGeometry, orbitsMaterial);
 const neptuneLine = new THREE.Line(neptuneGeometry, orbitsMaterial);
 
 export default {
-    scene,
-    camera,
-    renderer,
-    light,
-    ambientLight,
-    controls,
-    group,
-    sunGroup,
-    sunGroupParent,
-    mercuryGroup,
-    mercuryGroupParent,
-    venusGroup,
-    venusGroupParent,
-    earthGroup,
-    earthGroupParent,
-    marsGroup,
-    marsGroupParent,
-    jupiterGroup,
-    jupiterGroupParent,
-    saturnGroup,
-    saturnGroupParent,
-    uranusGroup,
-    uranusGroupParent,
-    neptuneGroup,
-    neptuneGroupParent,
+  scene,
+  camera,
+  renderer,
+  light,
+  ambientLight,
+  controls,
+  group,
+  sunGroup,
+  sunGroupParent,
+  mercuryGroup,
+  mercuryGroupParent,
+  venusGroup,
+  venusGroupParent,
+  earthGroup,
+  earthGroupParent,
+  marsGroup,
+  marsGroupParent,
+  jupiterGroup,
+  jupiterGroupParent,
+  saturnGroup,
+  saturnGroupParent,
+  uranusGroup,
+  uranusGroupParent,
+  neptuneGroup,
+  neptuneGroupParent,
 
-    mercuryLine,
-    venusLine,
-    earthLine,
-    marsLine,
-    jupiterLine,
-    saturnLine,
-    uranusLine,
-    neptuneLine,
-}
+  mercuryLine,
+  venusLine,
+  earthLine,
+  marsLine,
+  jupiterLine,
+  saturnLine,
+  uranusLine,
+  neptuneLine,
+
+  mercuryDistance,
+  venusDistance,
+  earthDistance,
+  marsDistance,
+  jupiterDistance,
+  saturnDistance,
+  uranusDistance,
+  neptuneDistance,
+};
