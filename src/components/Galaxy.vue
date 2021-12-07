@@ -87,7 +87,7 @@ export default {
     },
     async loaderPlanet() {
       //太阳
-      await loader3d("glb/Sun.glb", (glb) => {
+      await loader3d("http://lorelei47.cn-gd.ufileos.com/glb/Sun.glb", (glb) => {
         console.log(glb);
         let sun = glb.scene;
         sun.scale.set(4, 4, 4);
