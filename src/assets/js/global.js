@@ -1,12 +1,16 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import Stats from "three/examples/jsm/libs/stats.module";
+import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 
+const stats = new Stats();
+const gui = new GUI();
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
-  30,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  10000000
+    30,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    10000000
 );
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 const light = new THREE.PointLight(0xffffff, 3);
@@ -72,8 +76,8 @@ uranusGeometry.setFromPoints(uranusArc.getPoints(1000));
 neptuneGeometry.setFromPoints(neptuneArc.getPoints(1000));
 
 const orbitsMaterial = new THREE.LineBasicMaterial({
-  color: 0x555555,
-  linewidth: 0.3,
+    color: 0x555555,
+    linewidth: 0.3,
 });
 
 const mercuryLine = new THREE.Line(mercuryGeometry, orbitsMaterial);
@@ -86,47 +90,49 @@ const uranusLine = new THREE.Line(uranusGeometry, orbitsMaterial);
 const neptuneLine = new THREE.Line(neptuneGeometry, orbitsMaterial);
 
 export default {
-  scene,
-  camera,
-  renderer,
-  light,
-  ambientLight,
-  controls,
-  group,
-  sunGroup,
-  sunGroupParent,
-  mercuryGroup,
-  mercuryGroupParent,
-  venusGroup,
-  venusGroupParent,
-  earthGroup,
-  earthGroupParent,
-  marsGroup,
-  marsGroupParent,
-  jupiterGroup,
-  jupiterGroupParent,
-  saturnGroup,
-  saturnGroupParent,
-  uranusGroup,
-  uranusGroupParent,
-  neptuneGroup,
-  neptuneGroupParent,
+    stats,
+    gui,
+    scene,
+    camera,
+    renderer,
+    light,
+    ambientLight,
+    controls,
+    group,
+    sunGroup,
+    sunGroupParent,
+    mercuryGroup,
+    mercuryGroupParent,
+    venusGroup,
+    venusGroupParent,
+    earthGroup,
+    earthGroupParent,
+    marsGroup,
+    marsGroupParent,
+    jupiterGroup,
+    jupiterGroupParent,
+    saturnGroup,
+    saturnGroupParent,
+    uranusGroup,
+    uranusGroupParent,
+    neptuneGroup,
+    neptuneGroupParent,
 
-  mercuryLine,
-  venusLine,
-  earthLine,
-  marsLine,
-  jupiterLine,
-  saturnLine,
-  uranusLine,
-  neptuneLine,
+    mercuryLine,
+    venusLine,
+    earthLine,
+    marsLine,
+    jupiterLine,
+    saturnLine,
+    uranusLine,
+    neptuneLine,
 
-  mercuryDistance,
-  venusDistance,
-  earthDistance,
-  marsDistance,
-  jupiterDistance,
-  saturnDistance,
-  uranusDistance,
-  neptuneDistance,
+    mercuryDistance,
+    venusDistance,
+    earthDistance,
+    marsDistance,
+    jupiterDistance,
+    saturnDistance,
+    uranusDistance,
+    neptuneDistance,
 };
