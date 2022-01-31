@@ -1,24 +1,16 @@
 # eight-planets
 
-## Project setup
-```
-npm install
-```
+## 太阳系简易模型
+### [演示地址](https://lorelei47.github.io/eight-planets/)
 
-### Compiles and hot-reloads for development
+---
+## 技术
+### vue.js+three.js+tween.js
+### three.js实现3D模型
+### tween.js仅用于镜头转移过渡效果的实现
+---
+## 结语
 ```
-npm run serve
+    由于叠加了过多group，在切换camera时，切换controls的target到对应group时，做不到过渡动画。
+    未实现拾取功能
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
