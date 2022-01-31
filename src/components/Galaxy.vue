@@ -26,18 +26,18 @@ export default {
       uranusScale: null,
       neptuneScale: null,
 
-      worldTarget: null,
+      worldTarget: global.sunGroup,
       plantBtn: [
-        { id: "sun", text: "太阳" , group: global.sunGroupParent, target: global.sunGroup, distance: null},
-        { id: "mercury", text: "水星" , group: global.mercuryGroupParent, target: global.mercuryGroup, distance: global.mercuryDistance-300},
-        { id: "venus", text: "金星" , group: global.venusGroupParent, target: global.venusGroup, distance: global.venusDistance-500},
-        { id: "earth", text: "地球" , group: global.earthGroupParent, target: global.earthGroup, distance: global.earthDistance-500},
-        { id: "moon", text: "月球" , group: global.earthGroup, target: global.moonGroup, distance: 700},
-        { id: "mars", text: "火星" , group: global.marsGroupParent, target: global.marsGroup, distance: global.marsDistance-300},
-        { id: "jupiter", text: "木星" , group: global.jupiterGroupParent, target: global.jupiterGroup, distance: global.jupiterDistance-2000},
-        { id: "saturn", text: "土星" , group: global.saturnGroupParent, target: global.saturnGroup, distance: global.saturnDistance-2000},
-        { id: "uranus", text: "天王星" , group: global.uranusGroupParent, target: global.uranusGroup, distance: global.uranusDistance-1000},
-        { id: "neptune", text: "海王星" , group: global.neptuneGroupParent, target: global.neptuneGroup, distance: global.neptuneDistance-1000},
+        { id: "sun", text: "太阳" , group: global.sunGroupParent, target: global.sunGroup, distance: new global.THREE.Vector3(40000,20000,50000)},
+        { id: "mercury", text: "水星" , group: global.mercuryGroupParent, target: global.mercuryGroup, distance: new global.THREE.Vector3(global.mercuryDistance-300, 100, 0)},
+        { id: "venus", text: "金星" , group: global.venusGroupParent, target: global.venusGroup, distance: new global.THREE.Vector3(global.venusDistance-500, 100, 0)},
+        { id: "earth", text: "地球" , group: global.earthGroupParent, target: global.earthGroup, distance: new global.THREE.Vector3(global.earthDistance-500, 100, 0)},
+        { id: "moon", text: "月球" , group: global.earthGroup, target: global.moonGroup, distance: new global.THREE.Vector3(700, 100, 0)},
+        { id: "mars", text: "火星" , group: global.marsGroupParent, target: global.marsGroup, distance: new global.THREE.Vector3(global.marsDistance-300, 100, 0)},
+        { id: "jupiter", text: "木星" , group: global.jupiterGroupParent, target: global.jupiterGroup, distance: new global.THREE.Vector3(global.jupiterDistance-2000, 100, 0)},
+        { id: "saturn", text: "土星" , group: global.saturnGroupParent, target: global.saturnGroup, distance: new global.THREE.Vector3(global.saturnDistance-2000, 100, 0)},
+        { id: "uranus", text: "天王星" , group: global.uranusGroupParent, target: global.uranusGroup, distance: new global.THREE.Vector3(global.uranusDistance-1000, 100, 0)},
+        { id: "neptune", text: "海王星" , group: global.neptuneGroupParent, target: global.neptuneGroup, distance: new global.THREE.Vector3(global.neptuneDistance-1000, 100, 0)},
       ],
     };
   },
@@ -75,9 +75,10 @@ export default {
       requestAnimationFrame(this.animate);
       this.rotation();
       this.orbitalRevolution();
-      this.updateGui();
+      // this.updateGui();
       this.updateCameraTarget();
       global.stats.update();
+      global.TWEEN.update();
       global.controls.update();
       global.renderer.render(global.scene, global.camera);
     },
@@ -205,8 +206,8 @@ export default {
           this.sunScale.size,
           this.sunScale.size
         );
-        let sunFolder = global.gui.addFolder("Sun");
-        sunFolder.add(this.sunScale, "size", 4, 5, 0.01);
+        // let sunFolder = global.gui.addFolder("Sun");
+        // sunFolder.add(this.sunScale, "size", 4, 5, 0.01);
         global.sunGroup.add(sun);
       });
       //水星
@@ -224,8 +225,8 @@ export default {
           this.mercuryScale.size,
           this.mercuryScale.size
         );
-        let mercuryFolder = global.gui.addFolder("Mercury");
-        mercuryFolder.add(this.mercuryScale, "size", 0.035, 0.35, 0.01);
+        // let mercuryFolder = global.gui.addFolder("Mercury");
+        // mercuryFolder.add(this.mercuryScale, "size", 0.035, 0.35, 0.01);
         global.mercuryGroup.add(mercury);
       });
       //金星
@@ -243,8 +244,8 @@ export default {
           this.venusScale.size,
           this.venusScale.size
         );
-        let venusFolder = global.gui.addFolder("Venus");
-        venusFolder.add(this.venusScale, "size", 0.09, 0.9, 0.01);
+        // let venusFolder = global.gui.addFolder("Venus");
+        // venusFolder.add(this.venusScale, "size", 0.09, 0.9, 0.01);
         global.venusGroup.add(venus);
       });
       //地球
@@ -263,8 +264,8 @@ export default {
           this.earthScale.size,
           this.earthScale.size
         );
-        let earthFolder = global.gui.addFolder("Earth");
-        earthFolder.add(this.earthScale, "size", 0.09, 0.9, 0.01);
+        // let earthFolder = global.gui.addFolder("Earth");
+        // earthFolder.add(this.earthScale, "size", 0.09, 0.9, 0.01);
         global.earthGroup.add(earth);
         global.earthGroup.rotation.x += 0.2;
       });
@@ -296,8 +297,8 @@ export default {
           this.marsScale.size,
           this.marsScale.size
         );
-        let marsFolder = global.gui.addFolder("Mars");
-        marsFolder.add(this.marsScale, "size", 0.045, 0.45, 0.01);
+        // let marsFolder = global.gui.addFolder("Mars");
+        // marsFolder.add(this.marsScale, "size", 0.045, 0.45, 0.01);
         global.marsGroup.add(mars);
         global.marsGroup.rotation.x += 0.24;
       });
@@ -316,8 +317,8 @@ export default {
           this.jupiterScale.size,
           this.jupiterScale.size
         );
-        let jupiterFolder = global.gui.addFolder("Jupiter");
-        jupiterFolder.add(this.jupiterScale, "size", 0.5, 1.5, 0.01);
+        // let jupiterFolder = global.gui.addFolder("Jupiter");
+        // jupiterFolder.add(this.jupiterScale, "size", 0.5, 1.5, 0.01);
         global.jupiterGroup.add(jupiter);
         global.jupiterGroup.rotation.x += 0.03;
       });
@@ -336,8 +337,8 @@ export default {
           this.saturnScale.size,
           this.saturnScale.size
         );
-        let saturnFolder = global.gui.addFolder("Saturn");
-        saturnFolder.add(this.saturnScale, "size", 0.5, 1.4, 0.01);
+        // let saturnFolder = global.gui.addFolder("Saturn");
+        // saturnFolder.add(this.saturnScale, "size", 0.5, 1.4, 0.01);
         global.saturnGroup.add(saturn);
         global.saturnGroup.rotation.x += 0.24;
       });
@@ -356,8 +357,8 @@ export default {
           this.uranusScale.size,
           this.uranusScale.size
         );
-        let uranusFolder = global.gui.addFolder("Uranus");
-        uranusFolder.add(this.uranusScale, "size", 0.37, 1.2, 0.01);
+        // let uranusFolder = global.gui.addFolder("Uranus");
+        // uranusFolder.add(this.uranusScale, "size", 0.37, 1.2, 0.01);
         global.uranusGroup.add(uranus);
         global.uranusGroup.rotation.x += Math.PI/2 - 0.06;
       });
@@ -376,8 +377,8 @@ export default {
           this.neptuneScale.size,
           this.neptuneScale.size
         );
-        let neptuneFolder = global.gui.addFolder("Neptune");
-        neptuneFolder.add(this.neptuneScale, "size", 0.35, 1.2, 0.01);
+        // let neptuneFolder = global.gui.addFolder("Neptune");
+        // neptuneFolder.add(this.neptuneScale, "size", 0.35, 1.2, 0.01);
         global.neptuneGroup.add(neptune);
         global.neptuneGroup.rotation.x += 0.25;
       });
@@ -408,22 +409,29 @@ export default {
       global.neptuneGroupParent.rotation.y += 0.0000039;
     },
     viewCamera(item){
-      if(item.id === 'sun'){
+      const tween1 = this.tweenAnimate(global.camera.position, new global.THREE.Vector3(40000,20000,50000),1500);
+      const tween2 = this.tweenAnimate(global.camera.position, item.distance,1500);
+      tween1.chain(tween2);
+      tween1.onComplete(()=>{
+        //相机目标绑定了Object3D对象，切换目标时暂时没法做过渡
         item.group.add(global.camera);
-        global.camera.position.set(40000,20000,50000);
-        this.worldTarget = global.sunGroup;
-        return;
-      }
-      item.group.add(global.camera);
-      global.camera.position.set(item.distance, 100, 0);
+        this.worldTarget = item.target;
+      });
+      tween1.start();
       global.camera.rotation.y = Math.PI/2;
-      this.worldTarget = item.target;
     },
     updateCameraTarget(){
       if(!this.worldTarget){
         return;
       }
       this.worldTarget.getWorldPosition(global.cameraTarget);
+    },
+    tweenAnimate(object, newPosition, time){
+      return new global.TWEEN.Tween(object).to({
+            x: newPosition.x,
+            y: newPosition.y,
+            z: newPosition.z
+        }, time).easing(global.TWEEN.Easing.Exponential.InOut);
     }
   },
 };

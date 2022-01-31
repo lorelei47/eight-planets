@@ -1,10 +1,11 @@
 import * as THREE from "three";
+import TWEEN from '@tweenjs/tween.js'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import Stats from "three/examples/jsm/libs/stats.module";
-import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
+// import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 
 const stats = new Stats();
-const gui = new GUI();
+// const gui = new GUI();
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
     30,
@@ -100,8 +101,10 @@ const neptuneLine = new THREE.Line(neptuneGeometry, orbitsMaterial);
 const cameraHelper = new THREE.CameraHelper(camera1);
 
 export default {
+    THREE,
+    TWEEN,
     stats,
-    gui,
+    // gui,
     scene,
     camera,
     camera1,
