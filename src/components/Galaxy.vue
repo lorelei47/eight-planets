@@ -1,5 +1,12 @@
 <template>
   <div class="Galaxy" ref="Galaxy">
+    <div class="cover" v-if="!resource_loaded">
+      <svg class="percent" width="100" hight="100" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" :r="percen_r" fill="none" stroke="#f7f7f7" stroke-width="2" /> 
+        <circle cx="50" cy="50" :r="percen_r" fill="none" stroke="#00A6B2" stroke-width="5" :stroke-dasharray="percen_c" :stroke-dashoffset="dashOffsetCircle" stroke-linecap="round" />
+        <text x="50" y="-50" font-size="12px" fill="white" class="percent_rate" text-anchor="middle" dominant-baseline="middle">{{percent_rate}}</text>
+      </svg>
+    </div>
     <ul class="plant-btn">
       <li v-for="(item, index) in plantBtn" :key="index" :id="item.id" @click="PlantBtnEvent(item)"><span>{{item.text}}</span></li>
     </ul>
@@ -7,8 +14,9 @@
 </template>
 
 <script>
-import { loader3d } from "../assets/js/loader";
 import global from "../assets/js/global";
+import { loader3d } from "../assets/js/loader";
+//天文单位/太阳直径=107.4712643678161
 export default {
   name: "Galaxy",
   props: {},
@@ -16,15 +24,19 @@ export default {
     return {
       path: "http://lorelei47.cn-gd.ufileos.com/glb/", //正式环境
       // path: "glb/", //本地环境
-      sunScale: null,
-      mercuryScale: null,
-      venusScale: null,
-      earthScale: null,
-      marsScale: null,
-      jupiterScale: null,
-      saturnScale: null,
-      uranusScale: null,
-      neptuneScale: null,
+      percen_r: 30,
+      percentage: 0,
+      resource_loaded: false,
+      sunScale: 0,
+      mercuryScale: 0,
+      venusScale: 0,
+      earthScale: 0,
+      moonScale: 0,
+      marsScale: 0,
+      jupiterScale: 0,
+      saturnScale: 0,
+      uranusScale: 0,
+      neptuneScale: 0,
 
       worldTarget: global.sunGroup,
       plantBtn: [
@@ -41,8 +53,19 @@ export default {
       ],
     };
   },
+  computed:{
+    percen_c(){
+      return this.percen_r * 2 * Math.PI;
+    },
+    dashOffsetCircle(){
+      return this.percen_c - this.percentage * this.percen_c / 100;
+    },
+    percent_rate(){
+      return Math.round( this.percentage, 2 )+"%";
+    }
+  },
   mounted() {
-    this.initMesh();
+    this.initLoaderManager()
   },
   methods: {
     PlantBtnEvent(item){
@@ -53,6 +76,24 @@ export default {
       global.stats.domElement.style.position = "absolute";
       global.stats.domElement.style.top = "0px";
       this.$refs.Galaxy.appendChild(global.stats.domElement);
+    },
+    initLoaderManager(){
+      global.manager.onStart = (url) => {
+          console.log('Started loading file: ' + url + '.');
+      };
+      global.manager.onLoad = () => {
+          console.log('Loading complete!');
+          this.resource_loaded = true;
+          this.initMesh();
+      };
+      global.manager.onProgress = (url, itemsLoaded, itemsTotal) => {
+          this.percentage = itemsLoaded / itemsTotal * 100;
+					console.log( 'model ' + Math.round( this.percentage, 2 ) + '% downloaded' );
+      };
+      global.manager.onError = (url) => {
+          console.log('There was an error loading ' + url);
+      };
+      this.loaderPlanetAsyn();
     },
     initMesh() {
       this.$refs.Galaxy.append(global.renderer.domElement);
@@ -68,10 +109,13 @@ export default {
 
       this.initStats();
       this.initGroup();
-      this.loaderPlanet();
-
+      this.initOrbits();
+      this.animate();
     },
     animate() {
+      if(!this.resource_loaded){
+        return;
+      }
       requestAnimationFrame(this.animate);
       this.rotation();
       this.orbitalRevolution();
@@ -193,9 +237,9 @@ export default {
           this.neptuneScale.size
         );
     },
-    async loaderPlanet() {
+    loaderPlanetAsyn() {
       //太阳
-      await loader3d(this.path + "Sun.glb", (glb) => {
+      loader3d(this.path + "Sun.glb", (glb) => {
         let sun = glb.scene;
         sun.name = "sun";
         this.sunScale = new (function () {
@@ -206,17 +250,13 @@ export default {
           this.sunScale.size,
           this.sunScale.size
         );
-        // let sunFolder = global.gui.addFolder("Sun");
-        // sunFolder.add(this.sunScale, "size", 4, 5, 0.01);
         global.sunGroup.add(sun);
       });
       //水星
-      await loader3d(this.path + "Mercury.glb", (glb) => {
+      loader3d(this.path + "Mercury.glb", (glb) => {
         let mercury = glb.scene;
         mercury.name = "mercury";
-        // mercury.scale.set(0.0035, 0.0035, 0.0035);//等比例数据
         global.mercuryGroup.position.set(global.mercuryDistance, 0, 0);
-        // global.mercuryGroup.position.set(4083.9, 0, 0);//等比例数据
         this.mercuryScale = new (function () {
           this.size = 0.035;
         })();
@@ -225,17 +265,13 @@ export default {
           this.mercuryScale.size,
           this.mercuryScale.size
         );
-        // let mercuryFolder = global.gui.addFolder("Mercury");
-        // mercuryFolder.add(this.mercuryScale, "size", 0.035, 0.35, 0.01);
         global.mercuryGroup.add(mercury);
       });
       //金星
-      await loader3d(this.path + "Venus.glb", (glb) => {
+      loader3d(this.path + "Venus.glb", (glb) => {
         let venus = glb.scene;
         venus.name = "venus";
-        // venus.scale.set(0.009, 0.009, 0.009);//等比例数据
         global.venusGroup.position.set(global.venusDistance, 0, 0);
-        // global.venusGroup.position.set(7770.1, 0, 0);//等比例数据
         this.venusScale = new (function () {
           this.size = 0.09;
         })();
@@ -244,18 +280,13 @@ export default {
           this.venusScale.size,
           this.venusScale.size
         );
-        // let venusFolder = global.gui.addFolder("Venus");
-        // venusFolder.add(this.venusScale, "size", 0.09, 0.9, 0.01);
         global.venusGroup.add(venus);
       });
       //地球
-      await loader3d(this.path + "Earth.glb", (glb) => {
-        //天文单位/太阳直径=107.4712643678161
+      loader3d(this.path + "Earth.glb", (glb) => {
         let earth = glb.scene;
         earth.name = "earth";
-        // earth.scale.set(0.009, 0.009, 0.009);//等比例数据
         global.earthGroup.position.set(global.earthDistance, 0, 0);
-        // global.earthGroup.position.set(10747.1, 0, 0);//等比例数据
         this.earthScale = new (function () {
           this.size = 0.09;
         })();
@@ -264,31 +295,29 @@ export default {
           this.earthScale.size,
           this.earthScale.size
         );
-        // let earthFolder = global.gui.addFolder("Earth");
-        // earthFolder.add(this.earthScale, "size", 0.09, 0.9, 0.01);
         global.earthGroup.add(earth);
         global.earthGroup.rotation.x += 0.2;
       });
       //月球
-      await loader3d(this.path + "Moon.glb", (glb) => {
-        //天文单位/太阳直径=107.4712643678161
+      loader3d(this.path + "Moon.glb", (glb) => {
         let moon = glb.scene;
         moon.name = "moon";
         global.moonGroup.position.set(1000, 0, 0);
+        this.moonScale = new (function () {
+          this.size = 0.045;
+        })();
         moon.scale.set(
-          this.earthScale.size /2,
-          this.earthScale.size /2,
-          this.earthScale.size /2
+          this.moonScale.size,
+          this.moonScale.size,
+          this.moonScale.size
         );
         global.moonGroup.add(moon);
       });
       //火星
-      await loader3d(this.path + "Mars.glb", (glb) => {
+      loader3d(this.path + "Mars.glb", (glb) => {
         let mars = glb.scene;
         mars.name = "mars";
-        // mars.scale.set(0.0045, 0.0045, 0.0045);//等比例数据
         global.marsGroup.position.set(global.marsDistance, 0, 0);
-        // global.marsGroup.position.set(16378.5, 0, 0);//等比例数据
         this.marsScale = new (function () {
           this.size = 0.045;
         })();
@@ -297,18 +326,14 @@ export default {
           this.marsScale.size,
           this.marsScale.size
         );
-        // let marsFolder = global.gui.addFolder("Mars");
-        // marsFolder.add(this.marsScale, "size", 0.045, 0.45, 0.01);
         global.marsGroup.add(mars);
         global.marsGroup.rotation.x += 0.24;
       });
       //木星
-      await loader3d(this.path + "Jupiter.glb", (glb) => {
+      loader3d(this.path + "Jupiter.glb", (glb) => {
         let jupiter = glb.scene;
         jupiter.name = "jupiter";
-        // jupiter.scale.set(0.1, 0.1, 0.1);//等比例数据
         global.jupiterGroup.position.set(global.jupiterDistance, 0, 0);
-        // global.jupiterGroup.position.set(55932.7, 0, 0);//等比例数据
         this.jupiterScale = new (function () {
           this.size = 1;
         })();
@@ -317,18 +342,14 @@ export default {
           this.jupiterScale.size,
           this.jupiterScale.size
         );
-        // let jupiterFolder = global.gui.addFolder("Jupiter");
-        // jupiterFolder.add(this.jupiterScale, "size", 0.5, 1.5, 0.01);
         global.jupiterGroup.add(jupiter);
         global.jupiterGroup.rotation.x += 0.03;
       });
       //土星
-      await loader3d(this.path + "Saturn.glb", (glb) => {
+      loader3d(this.path + "Saturn.glb", (glb) => {
         let saturn = glb.scene;
         saturn.name = "saturn";
-        // saturn.scale.set(0.084, 0.084, 0.084);//等比例数据
         global.saturnGroup.position.set(global.saturnDistance, 0, 0);
-        // global.saturnGroup.position.set(102984, 0, 0);//等比例数据
         this.saturnScale = new (function () {
           this.size = 0.84;
         })();
@@ -337,18 +358,14 @@ export default {
           this.saturnScale.size,
           this.saturnScale.size
         );
-        // let saturnFolder = global.gui.addFolder("Saturn");
-        // saturnFolder.add(this.saturnScale, "size", 0.5, 1.4, 0.01);
         global.saturnGroup.add(saturn);
         global.saturnGroup.rotation.x += 0.24;
       });
       //天王星
-      await loader3d(this.path + "Uranus.glb", (glb) => {
+      loader3d(this.path + "Uranus.glb", (glb) => {
         let uranus = glb.scene;
         uranus.name = "uranus";
-        // uranus.scale.set(0.037, 0.037, 0.037);//等比例数据
         global.uranusGroup.position.set(global.uranusDistance, 0, 0);
-        // global.uranusGroup.position.set(206559.2, 0, 0);//等比例数据
         this.uranusScale = new (function () {
           this.size = 0.37;
         })();
@@ -357,18 +374,14 @@ export default {
           this.uranusScale.size,
           this.uranusScale.size
         );
-        // let uranusFolder = global.gui.addFolder("Uranus");
-        // uranusFolder.add(this.uranusScale, "size", 0.37, 1.2, 0.01);
         global.uranusGroup.add(uranus);
         global.uranusGroup.rotation.x += Math.PI/2 - 0.06;
       });
       //海王星
-      await loader3d(this.path + "Neptune.glb", (glb) => {
+      loader3d(this.path + "Neptune.glb", (glb) => {
         let neptune = glb.scene;
         neptune.name = "neptune";
-        // neptune.scale.set(0.035, 0.035, 0.035);//等比例数据
         global.neptuneGroup.position.set(global.neptuneDistance, 0, 0);
-        // global.neptuneGroup.position.set(3231605.3, 0, 0);//等比例数据
         this.neptuneScale = new (function () {
           this.size = 0.35;
         })();
@@ -377,13 +390,9 @@ export default {
           this.neptuneScale.size,
           this.neptuneScale.size
         );
-        // let neptuneFolder = global.gui.addFolder("Neptune");
-        // neptuneFolder.add(this.neptuneScale, "size", 0.35, 1.2, 0.01);
         global.neptuneGroup.add(neptune);
         global.neptuneGroup.rotation.x += 0.25;
       });
-      this.initOrbits();
-      this.animate();
     },
     rotation() {
       global.sunGroup.rotation.y += 0.0008;
@@ -418,6 +427,8 @@ export default {
         this.worldTarget = item.target;
       });
       tween1.start();
+      global.controls.enablePan = (item.id === 'sun') ?  true : false;
+      global.controls.enableZoom = (item.id === 'sun') ?  true : false;
       global.camera.rotation.y = Math.PI/2;
     },
     updateCameraTarget(){
@@ -438,6 +449,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.cover {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: #404040;
+  .percent{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    .percent_rate{
+      user-select: none;
+      transform: rotateZ(90deg);
+    }
+  }
+}
 .plant-btn {
   position: absolute;
   top: 40px;

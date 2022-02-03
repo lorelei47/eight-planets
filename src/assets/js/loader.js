@@ -1,8 +1,10 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import global from "./global";
 
-const loader = new GLTFLoader();
+const loader = new GLTFLoader(global.manager);
 
-export function loader3d(path, callback) {
+//废弃，改用loaderManager加载
+export function loader3d_pro(path, callback) {
     return new Promise((resolve) => {
         loader.load(
             path,
@@ -14,5 +16,15 @@ export function loader3d(path, callback) {
             undefined
         );
     })
+}
 
+export function loader3d(path, callback) {
+    loader.load(
+        path,
+        function(glb) {
+            callback(glb);
+        },
+        undefined,
+        undefined
+    );
 }

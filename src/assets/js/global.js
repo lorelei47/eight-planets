@@ -5,6 +5,7 @@ import Stats from "three/examples/jsm/libs/stats.module";
 // import { GUI } from "three/examples/jsm/libs/lil-gui.module.min";
 
 const stats = new Stats();
+const manager = new THREE.LoadingManager();
 // const gui = new GUI();
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -104,6 +105,7 @@ export default {
     THREE,
     TWEEN,
     stats,
+    manager,
     // gui,
     scene,
     camera,
